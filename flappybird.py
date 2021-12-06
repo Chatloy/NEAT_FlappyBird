@@ -160,25 +160,27 @@ def game():
 	DISPLAY  = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 	pygame.display.set_caption('Flappy Bird')
 
-	global SCORE,bus_data, X, Y
+	global SCORE,bus_data,X,Y
 
 	bird = Bird(DISPLAY)
 	pipe1 = Pipe(DISPLAY, SCREENWIDTH+100)
 	pipe2 = Pipe(DISPLAY, SCREENWIDTH+100+(SCREENWIDTH/2))
+    
 
 	pipeGroup = pygame.sprite.Group()
 	pipeGroup.add(pipe1.upperBlock)
 	pipeGroup.add(pipe2.upperBlock)
 	pipeGroup.add(pipe1.lowerBlock)
 	pipeGroup.add(pipe2.lowerBlock)
+	bus=smbus.SMBus(1)
+	addr = 0x20
+	direction = RIGHT
 
 	# birdGroup = pygame.sprite.Group()
 	# birdGroup.add(bird1)
     
     ## I2C bus start
-    bus = smbus.SMBus(1)
-    addr = 0x20
-    direction = RIGHT
+    
 
 	moved = False
 	pause =0
@@ -204,20 +206,20 @@ def game():
 			return(SCORE)
 
         # Reads Qwiic Joystick
-        try:
-            bus_data = bus.read_i2c_block_data(addr, 0x03, 5)
-        except Exception as e:
-            print(e)
-        X = (bus_data[0]<<8 | bus_data[1])>>6
-        Y = (bus_data[2]<<8 | bus_data[3])>>6
-        if X < 450:
-            direction = RIGHT
-        elif 575 < X:
-            direction = LEFT
-        elif Y < 450:
-            direction = DOWN
-        elif 575 < Y:
-            direction = UP
+		try:
+			bus_data = bus.read_i2c_block_data(addr, 0x03, 5)
+		except Exception as e:
+			print(e)
+		X = (bus_data[0]<<8 | bus_data[1])>>6
+		Y = (bus_data[2]<<8 | bus_data[3])>>6
+		if X < 450:
+			direction = RIGHT
+		elif 575 < X:
+			direction = LEFT
+		elif Y < 450:
+			direction = DOWN
+		elif 575 < Y:
+			direction = UP
 			
 
 		
