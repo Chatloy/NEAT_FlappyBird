@@ -227,7 +227,7 @@ def game():
 			if event.type == QUIT or (event.type == KEYDOWN and (event.key == K_ESCAPE )):
 				pygame.quit()
 				sys.exit()
-			if event.type == KEYDOWN and (event.key == K_UP or direction==UP or event.key == K_RETURN):
+			if direction==UP or (event.type == KEYDOWN and (event.key == K_UP or event.key == K_RETURN)):
 				bird.move("UP")
 				moved = True
 			if event.type == KEYDOWN and event.key == K_m :
@@ -261,3 +261,4 @@ def game():
 			pygame.display.update()
 
 		FPSCLOCK.tick(FPS)
+game()
