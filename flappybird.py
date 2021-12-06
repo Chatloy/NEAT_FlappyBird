@@ -174,7 +174,7 @@ def game():
 	pipeGroup.add(pipe2.lowerBlock)
 	bus=smbus.SMBus(1)
 	addr = 0x20
-	direction = RIGHT
+	direction = UP
 
 	# birdGroup = pygame.sprite.Group()
 	# birdGroup.add(bird1)
@@ -213,11 +213,11 @@ def game():
 		X = (bus_data[0]<<8 | bus_data[1])>>6
 		Y = (bus_data[2]<<8 | bus_data[3])>>6
 		if X < 450:
-			direction = RIGHT
+			direction = UP
 		elif 575 < X:
-			direction = LEFT
+			direction = UP
 		elif Y < 450:
-			direction = DOWN
+			direction = UP
 		elif 575 < Y:
 			direction = UP
 			
